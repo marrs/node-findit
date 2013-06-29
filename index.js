@@ -41,7 +41,8 @@ function find (base, options, cb) {
                 var stat = this.vars[file];
                 if (cb) cb(file, stat);
                 
-                if (inodeSeen(stat.ino)) {
+                // Windows doesn't support iNode and just sets it to 0
+                if (stat.ino && inodeSeen(stat.ino)) {
                     // already seen this inode, probably a recursive symlink
                     this(null);
                 }
